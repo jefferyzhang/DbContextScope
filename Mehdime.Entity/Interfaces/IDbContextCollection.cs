@@ -19,5 +19,10 @@ namespace Mehdime.Entity
         /// Get or create a DbContext instance of the specified type. 
         /// </summary>
 		TDbContext Get<TDbContext>() where TDbContext : DbContext;
+
+        /// <summary>
+        /// When Transaction Commited
+        /// </summary>
+        event EventHandler<EventArgs> TransactionCommited;
     }
 }

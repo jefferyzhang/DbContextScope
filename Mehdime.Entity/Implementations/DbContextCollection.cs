@@ -84,6 +84,11 @@ namespace Mehdime.Entity
             return _initializedDbContexts[requestedType]  as TDbContext;
         }
 
+        /// <summary>
+        /// When Transaction Commited
+        /// </summary>
+        public event EventHandler<EventArgs> TransactionCommited;
+
         public int Commit()
         {
             if (_disposed)
@@ -140,6 +145,8 @@ namespace Mehdime.Entity
             if (lastError != null)
                 lastError.Throw(); // Re-throw while maintaining the exception's original stack track
 
+            OnTransactionCommited(new EventArgs());
+
             return c;
         }
 
@@ -191,6 +198,8 @@ namespace Mehdime.Entity
 
             if (lastError != null)
                 lastError.Throw(); // Re-throw while maintaining the exception's original stack track
+
+            OnTransactionCommited(new EventArgs());
 
             return c;
         }
@@ -280,6 +289,13 @@ namespace Mehdime.Entity
         {
             TValue value;
             return dictionary.TryGetValue(key, out value) ? value : default(TValue);
+        }
+
+        protected void OnTransactionCommited(EventArgs e)
+        {
+            var temp = Volatile.Read(ref TransactionCommited);
+
+            temp?.Invoke(this, e);
         }
     }
 }
