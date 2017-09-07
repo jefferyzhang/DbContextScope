@@ -85,9 +85,9 @@ namespace Mehdime.Entity
         }
 
         /// <summary>
-        /// When Transaction Commited
+        /// When Transaction Committed
         /// </summary>
-        public event EventHandler<EventArgs> TransactionCommited;
+        public event EventHandler<EventArgs> TransactionCommitted;
 
         public int Commit()
         {
@@ -145,7 +145,7 @@ namespace Mehdime.Entity
             if (lastError != null)
                 lastError.Throw(); // Re-throw while maintaining the exception's original stack track
 
-            OnTransactionCommited(new EventArgs());
+            OnTransactionCommitted(new EventArgs());
 
             return c;
         }
@@ -199,7 +199,7 @@ namespace Mehdime.Entity
             if (lastError != null)
                 lastError.Throw(); // Re-throw while maintaining the exception's original stack track
 
-            OnTransactionCommited(new EventArgs());
+            OnTransactionCommitted(new EventArgs());
 
             return c;
         }
@@ -291,9 +291,9 @@ namespace Mehdime.Entity
             return dictionary.TryGetValue(key, out value) ? value : default(TValue);
         }
 
-        protected void OnTransactionCommited(EventArgs e)
+        protected void OnTransactionCommitted(EventArgs e)
         {
-            var temp = Volatile.Read(ref TransactionCommited);
+            var temp = Volatile.Read(ref TransactionCommitted);
 
             temp?.Invoke(this, e);
         }

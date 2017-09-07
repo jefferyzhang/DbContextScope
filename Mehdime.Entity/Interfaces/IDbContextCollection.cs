@@ -21,8 +21,8 @@ namespace Mehdime.Entity
 		TDbContext Get<TDbContext>() where TDbContext : DbContext;
 
         /// <summary>
-        /// When Transaction Commited
+        /// When Transaction Committed
         /// </summary>
-        event EventHandler<EventArgs> TransactionCommited;
+        event EventHandler<EventArgs> TransactionCommitted;
     }
 }
